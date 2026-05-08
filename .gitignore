@@ -1,0 +1,6 @@
+.claude/
+.idea/
+*.egg-info/
+__pycache__/
+*.pyc
+.python-version
