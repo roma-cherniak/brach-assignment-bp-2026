@@ -13,7 +13,7 @@ from asl_classifier import load_model, predict
 from PIL import Image
 
 model = load_model()
-image = Image.open("hand.jpg")
+image = Image.open("Your_hand_image.jpg")
 label, confidence = predict(model, image)
 print(f"Prediction: {label} ({confidence}%)")
 ```
