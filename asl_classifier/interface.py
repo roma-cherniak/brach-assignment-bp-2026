@@ -9,8 +9,7 @@ from .model import Net
 CLASSES = ['A', 'B', 'C', 'D', 'nothing']
 
 inference_transform = transforms.Compose([
-    transforms.Resize((148, 148)),
-    transforms.CenterCrop(128),
+    transforms.Resize((128, 128)),
     transforms.ToTensor(),
     transforms.Normalize([0.5] * 3, [0.5] * 3),
 ])
@@ -37,22 +36,8 @@ def predict(model, image):
 
 
 def run_webcam(model, device=None):
-    import cv2
-    from PIL import Image
-    import torch
-    import torchvision.transforms as transforms
-
     if device is None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    CLASSES = ['A', 'B', 'C', 'D', 'nothing']
-
-    inference_transform = transforms.Compose([
-        transforms.Resize((148, 148)),
-        transforms.CenterCrop(128),
-        transforms.ToTensor(),
-        transforms.Normalize([0.5]*3, [0.5]*3),
-    ])
 
     model.eval()
     cap = cv2.VideoCapture(0)

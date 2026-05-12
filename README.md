@@ -28,7 +28,7 @@ run_webcam(model)  # press Q to quit
 
 ## API Reference
 
-### `load_model(weights_path=None)`
+### `load_model()`
 Loads the ASL classifier model with pretrained weights.
 
 
@@ -42,12 +42,17 @@ Opens webcam and runs live prediction in real time.
 - `model` — loaded model from `load_model()`
 - Press **Q** to quit
 
-### `Net`
-PyTorch `nn.Module` class implementing a 4-layer CNN for ASL classification.
-- Input: RGB image of any size (resized to 128x128 internally)
-- Output: class probabilities for 5 signs
-
 ## Evaluation Proposal
 
-My primary metrics for evaluating the model's performance were validation accuracy during training, as well as the model's real-world ability to recognize these signs in practice.
-While the results demonstrated promising progress, the model is far from optimal and requires further refinement and improvement.
+The model is trained on the [ASL Alphabet dataset](https://www.kaggle.com/datasets/grassknoted/asl-alphabet), a collection of 87,000 200×200 RGB images across 29 classes. For this project a 5-class subset (A, B, C, D, nothing) is used, split 80/10/10 into train/validation/test sets with stratified sampling to preserve class balance (~3,500 images per class in training).
+
+**Metrics**
+- Per-epoch validation accuracy (primary signal for early stopping)
+- Per-class precision, recall, and F1-score on the held-out test set
+- Confusion matrix to identify which sign pairs are most often confused
+
+**Pipeline**
+- Training: Adam optimizer, cross-entropy loss, 20 epochs, early stopping on validation loss plateau
+- Preprocessing: `Resize((128, 128))`, per-channel mean/std normalization (0.5/0.5)
+- Evaluation: the test set is never seen during training or hyperparameter tuning; final metrics are reported once against this set only
+- Real-world sanity check: qualitative webcam testing across different lighting conditions and hand positions
