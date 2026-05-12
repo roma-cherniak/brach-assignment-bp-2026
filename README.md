@@ -17,6 +17,7 @@ image = Image.open("Your_hand_image.jpg")
 label, confidence = predict(model, image)
 print(f"Prediction: {label} ({confidence}%)")
 ```
+hand image you can find in asl_alphabet_test folder 
 
 ### Try it live with your webcam
 ```python
